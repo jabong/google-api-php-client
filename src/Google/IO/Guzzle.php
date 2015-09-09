@@ -75,6 +75,16 @@ class Google_IO_Guzzle extends Google_IO_Abstract
         $req->addHeader('Accept-Encoding', 'gzip,deflate');
     }
     
+    $this->client->getLogger()->debug(
+        'guzzle request',
+        array(
+            'url' => $request->getUrl(),
+            'method' => $request->getRequestMethod(),
+            'headers' => $req->getHeaders(),
+            'body' => $request->getPostBody()
+        )
+    );
+    
     try {
         $result = $client->send($req);
         $rawHeaders = $result->getRawHeaders();
@@ -95,6 +105,15 @@ class Google_IO_Guzzle extends Google_IO_Abstract
         }
     }
 
+    $this->client->getLogger()->debug(
+        'guzzle response',
+        array(
+            'code'    => $responseCode,
+            'headers' => $responseHeaders,
+            'body'    => $responseBody,
+        )
+    );
+    
     return array($responseBody, $responseHeaders, $responseCode);
   }
   
